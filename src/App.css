@@ -20,3 +20,9 @@
 .App-table-box {
   width: 600px;
 }
+
+.App-footer {
+  padding-top: 2em;
+  font-size: 8pt;
+  text-align: center;
+}

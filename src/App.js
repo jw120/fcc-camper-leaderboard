@@ -5,14 +5,20 @@
  */
 
 import React, { Component } from 'react';
+import "whatwg-fetch";
 import './App.css';
 import CamperTable from './CamperTable';
 import type { Camper, Direction } from './CamperTable';
 
+const title = "Camper Leaderboard";
+const columnHeaders = [ "#", "Camper name", "All-time", "Recent" ];
+const initialColumnDirections = [ "NonControl", "NonControl", "Down", "Unselected" ];
+const recentURL = "https://fcctop100.herokuapp.com/api/fccusers/top/recent";
+const allTimeURL = "https://fcctop100.herokuapp.com/api/fccusers/top/alltime";
+
 class App extends Component {
 
   state: {
-    headers: string[];
     directions: Direction[];
     campers: {
       allTimeUp: Camper[];
@@ -25,31 +31,34 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      headers: [ "#", "Camper name", "All-time", "Recent" ],
-      directions: [ "NonControl", "NonControl", "Down", "Unselected" ],
-      campers: {
-        allTimeUp: [
-          {"username":"Takumar","img":"https://avatars.githubusercontent.com/u/2951935?v=3","alltime":2946,"recent":9,"lastUpdate":"2016-08-24T06:32:39.875Z"},
-          {"username":"abhisekp","img":"https://avatars.githubusercontent.com/u/1029200?v=3","alltime":2658,"recent":133,"lastUpdate":"2016-08-31T00:27:03.626Z"},
-          {"username":"sjames1958gm","img":"https://avatars.githubusercontent.com/u/4639625?v=3","alltime":2646,"recent":719,"lastUpdate":"2016-08-31T04:00:31.385Z"}
-        ],
-        allTimeDown: [
-          {"username":"sjames1958gm","img":"https://avatars.githubusercontent.com/u/4639625?v=3","alltime":2646,"recent":719,"lastUpdate":"2016-08-31T04:00:31.385Z"},
-          {"username":"abhisekp","img":"https://avatars.githubusercontent.com/u/1029200?v=3","alltime":2658,"recent":133,"lastUpdate":"2016-08-31T00:27:03.626Z"},
-          {"username":"Takumar","img":"https://avatars.githubusercontent.com/u/2951935?v=3","alltime":2946,"recent":9,"lastUpdate":"2016-08-24T06:32:39.875Z"}
-        ],
-        recentUp: [
-          {"username":"Takumar","img":"https://avatars.githubusercontent.com/u/2951935?v=3","alltime":2946,"recent":9,"lastUpdate":"2016-08-24T06:32:39.875Z"},
-          {"username":"abhisekp","img":"https://avatars.githubusercontent.com/u/1029200?v=3","alltime":2658,"recent":133,"lastUpdate":"2016-08-31T00:27:03.626Z"},
-          {"username":"sjames1958gm","img":"https://avatars.githubusercontent.com/u/4639625?v=3","alltime":2646,"recent":719,"lastUpdate":"2016-08-31T04:00:31.385Z"}
-        ],
-        recentDown: [
-          {"username":"sjames1958gm","img":"https://avatars.githubusercontent.com/u/4639625?v=3","alltime":2646,"recent":719,"lastUpdate":"2016-08-31T04:00:31.385Z"},
-          {"username":"abhisekp","img":"https://avatars.githubusercontent.com/u/1029200?v=3","alltime":2658,"recent":133,"lastUpdate":"2016-08-31T00:27:03.626Z"},
-          {"username":"Takumar","img":"https://avatars.githubusercontent.com/u/2951935?v=3","alltime":2946,"recent":9,"lastUpdate":"2016-08-24T06:32:39.875Z"}
-        ]
-      }
+      directions: initialColumnDirections,
+      campers: { allTimeUp: [], allTimeDown: [], recentUp: [], recentDown: [] }
     };
+    fetch(allTimeURL)
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          ...this.state,
+          campers: {
+            ...this.state.campers,
+            allTimeDown: json,
+            allTimeUp: json.concat().sort((a, b) => a.alltime - b.alltime)
+          }
+        });
+      });
+      fetch(recentURL)
+        .then((response) => response.json())
+        .then((json) => {
+          this.setState({
+            ...this.state,
+            campers: {
+              ...this.state.campers,
+              recentDown: json,
+              recentUp: json.concat().sort((a, b) => a.recent - b.recent)
+            }
+          });
+        });
+
   }
 
   /** Helper method to select the appropriate array of campers given our sorting headers */
@@ -91,16 +100,19 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-title">Camper Leaderboard</div>
+        <div className="App-title">{title}</div>
         <div className="App-box">
           <div className="App-table-box">
             <CamperTable
-              headers={this.state.headers}
+              headers={columnHeaders}
               directions={this.state.directions}
               campers={this.selectCampersArray()}
               onHeaderClick={(i) => this.updateDirections(i)}
             />
           </div>
+        </div>
+        <div className="App-footer">
+          Page by <a href="https://jw120.github.io">jw120</a>.
         </div>
       </div>
     );

@@ -6,5 +6,5 @@ Hosted at [jw120.github.io](https://jw120.github.io)
 
 ## TODO
 
-* Work out fetching/API
+* Tidy fetch (DRY, handle errors)
 * Add pictures and links to camper name

@@ -1,3 +1,22 @@
 .App {
   font-size: 14pt;
 }
+
+.App-title {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  font-size: 18pt;
+  font-weight: bold;
+  text-align: center;
+}
+
+.App-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.App-table-box {
+  width: 600px;
+}

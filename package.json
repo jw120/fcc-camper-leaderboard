@@ -17,5 +17,6 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
-  }
+  },
+  "homepage": "http://jw120.github.io/camper-leaderboard"
 }

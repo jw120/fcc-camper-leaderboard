@@ -9,17 +9,6 @@ import './App.css';
 import CamperTable from './CamperTable';
 import type { Camper, Direction } from './CamperTable';
 
-type State = {
-  headers: string[];
-  directions: Direction[];
-  campers: {
-    allTimeUp: Camper[];
-    allTimeDown: Camper[];
-    recentUp: Camper[];
-    recentDown: Camper [];
-  }
- };
-
 class App extends Component {
 
   state: {
@@ -36,7 +25,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      headers: [ "#", "Camper name", "All-time", "Last 30 days" ],
+      headers: [ "#", "Camper name", "All-time", "Recent" ],
       directions: [ "NonControl", "NonControl", "Down", "Unselected" ],
       campers: {
         allTimeUp: [
@@ -80,7 +69,6 @@ class App extends Component {
 
   /* Helper method to update the directions[] in state when a column is clicked */
   updateDirections(columnIndex: number): void {
-    console.log("Changing direction for column", columnIndex, "from", this.state.directions[columnIndex]);
     let oldDirection = this.state.directions[columnIndex];
     let mapFn = (d: Direction, i: number) => {
       switch (oldDirection) {
@@ -103,18 +91,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <CamperTable
-          title="Camper Leaderboard"
-          headers={this.state.headers}
-          directions={this.state.directions}
-          campers={this.selectCampersArray()}
-          onHeaderClick={(i) => this.updateDirections(i)}
-        />
+        <div className="App-title">Camper Leaderboard</div>
+        <div className="App-box">
+          <div className="App-table-box">
+            <CamperTable
+              headers={this.state.headers}
+              directions={this.state.directions}
+              campers={this.selectCampersArray()}
+              onHeaderClick={(i) => this.updateDirections(i)}
+            />
+          </div>
+        </div>
       </div>
     );
   }
 }
-
-
 
 export default App;

@@ -22,7 +22,6 @@ export type Camper = {
 
 /** Props for our CamperTable component */
 type Props = {
-  title: string;
   headers: string[];
   directions: Direction[];
   campers: Camper[];
@@ -38,6 +37,8 @@ function DirectionIndicator(props: {direction: Direction}): ?React.Element<*> {
       return (<i className="fa fa-sort-asc"></i>);
     case "Down":
       return (<i className="fa fa-sort-desc"></i>);
+    case "Unselected":
+      return (<i className="fa fa-sort-asc Hidden"></i>); // Hidden arrow to keep fixed spacing
     default:
       return null;
   }
@@ -47,24 +48,18 @@ function DirectionIndicator(props: {direction: Direction}): ?React.Element<*> {
  * Helper function to build the head of our table with an optional title row across all the columns
  * and a row of headings
  */
-function Head(props: {title: string, headers: string[], directions: Direction[], onHeaderClick: (columns: number) => void}): React.Element<*> {
-
-  let titleRow =
-    <tr className="HeadedTable-title">
-      <th colSpan={props.headers.length}>
-        {props.title}
-      </th>
-    </tr>;
-
+function Head(props: {headers: string[], directions: Direction[], onHeaderClick: (columns: number) => void}): React.Element<*> {
   return (
     <thead>
-      {props.title && titleRow}
       <tr>
         {props.headers.map((h, i) => {
           return (
             <th
               key={i}
-              className={props.directions[i] === "NonControl" ? "NonControlHeader" : "ControlHeader"}
+              className={
+                (props.directions[i] === "NonControl" ? "NonControlHeader" : "ControlHeader") +
+                (i === 1 ? " LeftAlign" : "")
+              }
               onClick={() => props.onHeaderClick(i)}
             >
               {h} <DirectionIndicator direction={props.directions[i]} />
@@ -83,7 +78,7 @@ function CamperRow(props: {camper: Camper, index: number}): React.Element<*> {
   return (
     <tr key={props.index}>
       <td>{props.index}</td>
-      <td>{props.camper.username}</td>
+      <td className="LeftAlign">{props.camper.username}</td>
       <td>{props.camper.alltime}</td>
       <td>{props.camper.recent}</td>
     </tr>
@@ -92,8 +87,8 @@ function CamperRow(props: {camper: Camper, index: number}): React.Element<*> {
 
 function CamperTable(props: Props): React.Element<*> {
   return (
-    <table>
-      <Head title={props.title} headers={props.headers} directions={props.directions} onHeaderClick={props.onHeaderClick}/>
+    <table className="CamperTable">
+      <Head headers={props.headers} directions={props.directions} onHeaderClick={props.onHeaderClick}/>
       <tbody>
         {props.campers.map((camper, index) => <CamperRow camper={camper} index={index + 1} key={index} />)}
       </tbody>

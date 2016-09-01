@@ -12,7 +12,7 @@ const headers = [
   { label: "#", direction: "NonControl"},
   { label: "Camper name", direction: "NonControl"},
   { label: "All-time", direction: "Down"},
-  { label: "Last 30 days", direction: "Unselected"}
+  { label: "Last 30 days", direction: "Up"}
 ];
 
 const campers = [

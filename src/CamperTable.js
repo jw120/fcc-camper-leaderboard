@@ -7,9 +7,11 @@
 import React from 'react';
 import './CamperTable.css';
 
+type Direction = "Up" | "Down" | "Unselected" | "NonControl";
+
 type Header = {
   label: string;
-  direction: "Up" | "Down" | "Unselected" | "NonControl";
+  direction: Direction;
 }
 
 type Camper = {
@@ -22,6 +24,20 @@ type Props = {
   title: string;
   headers: Header[];
   campers: Camper[];
+}
+
+/**
+ * Helper function to render the appropriate direction indicator for a column header item
+ */
+function DirectionIndicator(props: {direction: Direction}): ?React.Element<*> {
+  switch (props.direction) {
+    case "Up":
+      return (<i className="fa fa-sort-asc fa-2x"></i>);
+    case "Down":
+      return (<i className="fa fa-sort-desc fa-2x"></i>);
+    default:
+      return null;
+  }
 }
 
 /**
@@ -41,7 +57,16 @@ function Head(props: {title: string, headers: Header[]}): React.Element<*> {
     <thead>
       {props.title && titleRow}
       <tr>
-        {props.headers.map((h, i) => <th key={i}>{h.label}</th>)}
+        {props.headers.map((h, i) => {
+          return (
+            <th
+              key={i}
+              className={h.direction === "NonControl" ? "NonControlHeader" : "ControlHeader"}
+            >
+              {h.label} <DirectionIndicator direction={h.direction} />
+            </th>
+          );
+        })}
       </tr>
     </thead>
   );

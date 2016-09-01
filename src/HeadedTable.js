@@ -12,29 +12,38 @@ type Header = {
   direction: "Up" | "Down" | "Unselected" | "NonControl";
 }
 
+type ElementArray = React.Element<*>[];
+
 type Props = {
   title: string;
   headers: Header[];
-  rows: (React.Element<*>[])[];
+  rows: ElementArray[];
 }
 
-function TitleRow({title}: {title: string}): React.Element<*> {
+/**
+ * Helper function to build the head of our table with an optional title row across all the columns
+ * and a row of heading
+ */
+function Head({title, headers}: {title: string, headers: Header[]}): React.Element<*> {
+
+  let titleRow =
+    <tr className="HeadedTable-title">
+      <th colSpan={headers.length}>
+        {title}
+      </th>
+    </tr>;
+
   return (
-    <tr>
-      {title}
-    </tr>
+    <thead>
+      {title ? titleRow : ""}
+      <tr>
+        {headers.map((h, i) => <th key={i}>{h.label}</th>)}
+      </tr>
+    </thead>
   );
 }
 
-function HeaderRow({headers}: {headers: Header[]}): React.Element<*> {
-  return (
-    <tr>
-      {headers.map((h, i) => <th key={i}>{h.label}</th>)}
-    </tr>
-  );
-}
-
-function Row({elements}: {elements: React.Element<*>[]}): React.Element<*> {
+function Row({ elements }: {elements: React.Element<*>[]}): React.Element<*> {
   return (
     <tr>
       {elements.map((e, i) => <td key={i}>{e}</td>)}
@@ -42,31 +51,14 @@ function Row({elements}: {elements: React.Element<*>[]}): React.Element<*> {
   );
 }
 
-function renderName(name: string): React.Element<*> {
-  return (
-    <span>{name}</span>
-  );
-}
-
-function renderCount(count: number): React.Element<*> {
-  return (
-    <span>{count}</span>
-  );
-}
-
-
-
 function HeadedTable({title, headers, rows}: Props): React.Element<*> {
   return (
     <table className="HeadedTable">
-      <thead>
-        <TitleRow title={title} />
-        <HeaderRow headers={headers} />
-      </thead>
+      <Head title={title} headers={headers} />
       <tbody>
-        <Row elements={[renderName("Alice"), renderCount(100), renderCount(11)]} />
-        <Row elements={[renderName("Bob"), renderCount(90), renderCount(8)]} />
-        <Row elements={[renderName("Charlie"), renderCount(80), renderCount(9)]} />
+        <Row elements={rows[0]} index={1} />
+        <Row elements={rows[1]} index={2} />
+        <Row elements={rows[2]} index={3} />
       </tbody>
     </table>
   );

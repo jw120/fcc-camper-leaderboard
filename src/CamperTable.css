@@ -1,19 +1,15 @@
-.HeadedTable {
-}
-
+/* Remove border from around each cell */
 table {
   border-collapse: collapse;
 }
 
+/* Spacing around contents of every table cell */
 td, th {
   padding: 0.3em 1em 0.3em 1em;
   text-align: center;
 }
 
-th {
-  vertical-align: middle;
-}
-
+/* Squeeze title tow down towards the headers row a little */
 .HeadedTable-title th {
   padding-bottom: 0;
 }

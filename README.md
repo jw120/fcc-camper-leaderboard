@@ -6,12 +6,10 @@ Hosted at [jw120.github.io](https://jw120.github.io)
 
 ## TODO
 
-* Check coherence
-* Add logic to header direction callback
-* Avoid redefining Direction
+* Can we use ... to pass props to children and in this.setState
 * Improve table format
   + Equal column widths for the two number fields
-  + Vertically aligned within headers
   + Indicate which controls are active
-* Add state to App
+* Work out fetching
+* Work out sorting
 * Connect to API

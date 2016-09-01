@@ -1,20 +1,26 @@
 /** @flow
  *
- * Stateless function component that renders a table with a header row that allows sorting
+ * Stateless function component that renders our table of campers
  *
  */
 
 import React from 'react';
 import './CamperTable.css';
 
-export type Direction = "Up" | "Down" | "Unselected" | "NonControl";
+/** States of sorting direction used for each column header */
+export type Direction =
+  "Up" | "Down"  // Actively sorting on this column either ascending or descending
+  | "Unselected" // Column could be used for sorting, but not currenly selected
+  | "NonControl"; // Cannot sort on this column
 
-type Camper = {
+/* Table for for each camper */
+export type Camper = {
   username: string;
   alltime: number;
   recent: number;
 }
 
+/** Props for our CamperTable component */
 type Props = {
   title: string;
   headers: string[];
@@ -29,9 +35,9 @@ type Props = {
 function DirectionIndicator(props: {direction: Direction}): ?React.Element<*> {
   switch (props.direction) {
     case "Up":
-      return (<i className="fa fa-sort-asc fa-2x"></i>);
+      return (<i className="fa fa-sort-asc"></i>);
     case "Down":
-      return (<i className="fa fa-sort-desc fa-2x"></i>);
+      return (<i className="fa fa-sort-desc"></i>);
     default:
       return null;
   }

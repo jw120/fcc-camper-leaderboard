@@ -7,13 +7,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import CamperTable from './CamperTable';
+/* import type Direction from './CamperTable'; */
 
-const headers = [
-  { label: "#", direction: "NonControl"},
-  { label: "Camper name", direction: "NonControl"},
-  { label: "All-time", direction: "Down"},
-  { label: "Last 30 days", direction: "Up"}
-];
+type Direction = "Up" | "Down" | "Unselected" | "NonControl";
 
 const campers = [
   {"username":"Takumar","img":"https://avatars.githubusercontent.com/u/2951935?v=3","alltime":2946,"recent":9,"lastUpdate":"2016-08-24T06:32:39.875Z"},
@@ -22,13 +18,33 @@ const campers = [
 ];
 
 class App extends Component {
+
+  state: {
+    headers: string[];
+    directions: Direction[];
+   };
+
+  constructor() {
+    super();
+    this.state = {
+      headers: [ "#", "Camper name", "All-time", "Last 30 days" ],
+      directions: [ "NonControl", "NonControl", "Down", "Up" ]
+    }
+  }
+
+  updateDirections(columnIndex: number): void {
+    console.log("Changing direction for column", columnIndex, "from", this.state.directions[columnIndex]);
+  }
+
   render() {
     return (
       <div className="App">
         <CamperTable
           title="Camper Leaderboard"
-          headers={headers}
+          headers={this.state.headers}
+          directions={this.state.directions}
           campers={campers}
+          onHeaderClick={(i) => this.updateDirections(i)}
         />
       </div>
     );

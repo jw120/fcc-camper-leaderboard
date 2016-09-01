@@ -7,12 +7,7 @@
 import React from 'react';
 import './CamperTable.css';
 
-type Direction = "Up" | "Down" | "Unselected" | "NonControl";
-
-type Header = {
-  label: string;
-  direction: Direction;
-}
+export type Direction = "Up" | "Down" | "Unselected" | "NonControl";
 
 type Camper = {
   username: string;
@@ -22,8 +17,10 @@ type Camper = {
 
 type Props = {
   title: string;
-  headers: Header[];
+  headers: string[];
+  directions: Direction[];
   campers: Camper[];
+  onHeaderClick: (columnIndex: number) => void;
 }
 
 /**
@@ -44,7 +41,7 @@ function DirectionIndicator(props: {direction: Direction}): ?React.Element<*> {
  * Helper function to build the head of our table with an optional title row across all the columns
  * and a row of headings
  */
-function Head(props: {title: string, headers: Header[]}): React.Element<*> {
+function Head(props: {title: string, headers: string[], directions: Direction[], onHeaderClick: (columns: number) => void}): React.Element<*> {
 
   let titleRow =
     <tr className="HeadedTable-title">
@@ -61,9 +58,10 @@ function Head(props: {title: string, headers: Header[]}): React.Element<*> {
           return (
             <th
               key={i}
-              className={h.direction === "NonControl" ? "NonControlHeader" : "ControlHeader"}
+              className={props.directions[i] === "NonControl" ? "NonControlHeader" : "ControlHeader"}
+              onClick={() => props.onHeaderClick(i)}
             >
-              {h.label} <DirectionIndicator direction={h.direction} />
+              {h} <DirectionIndicator direction={props.directions[i]} />
             </th>
           );
         })}
@@ -88,8 +86,8 @@ function CamperRow(props: {camper: Camper, index: number}): React.Element<*> {
 
 function CamperTable(props: Props): React.Element<*> {
   return (
-    <table className="HeadedTable">
-      <Head title={props.title} headers={props.headers} />
+    <table>
+      <Head title={props.title} headers={props.headers} directions={props.directions} onHeaderClick={props.onHeaderClick}/>
       <tbody>
         {props.campers.map((camper, index) => <CamperRow camper={camper} index={index + 1} key={index} />)}
       </tbody>

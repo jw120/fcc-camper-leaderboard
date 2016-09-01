@@ -6,9 +6,9 @@ Hosted at [jw120.github.io](https://jw120.github.io)
 
 ## TODO
 
-
-* Add up/down arrows to headers
-* Add callbacks to CamperTable
+* Check coherence
+* Add logic to header direction callback
+* Avoid redefining Direction
 * Improve table format
   + Equal column widths for the two number fields
   + Vertically aligned within headers

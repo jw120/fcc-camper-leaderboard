@@ -29,6 +29,15 @@
   text-decoration: underline;
 }
 
+.CamperTable .ControlHeader:hover {
+ cursor:pointer;
+}
+
+.CamperTable img {
+  width: 25px;
+  padding-right: 10px;
+}
+
 .CamperTable .LeftAlign {
   text-align: left;
 }

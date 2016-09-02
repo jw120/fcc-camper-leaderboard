@@ -8,14 +8,15 @@ import React from 'react';
 import './CamperTable.css';
 
 /** States of sorting direction used for each column header */
-export type Direction =
-  "Up" | "Down"  // Actively sorting on this column either ascending or descending
-  | "Unselected" // Column could be used for sorting, but not currenly selected
-  | "NonControl"; // Cannot sort on this column
+export type Direction = "Up" // Actively sorting on this column in ascending order
+                      | "Down" // Actively sorting on this column in descending order
+                      | "Unselected" // Column could be used for sorting, but not currenly selected
+                      | "NonControl"; // Cannot sort on this column
 
 /* Table for for each camper */
 export type Camper = {
   username: string;
+  img: string;
   alltime: number;
   recent: number;
 }
@@ -78,7 +79,12 @@ function CamperRow(props: {camper: Camper, index: number}): React.Element<*> {
   return (
     <tr key={props.index}>
       <td>{props.index}</td>
-      <td className="LeftAlign">{props.camper.username}</td>
+      <td className="LeftAlign">
+        <a href={"https://freecodecamp.com/" + props.camper.username}>
+          <img src={props.camper.img} alt="avatar" />
+          {props.camper.username}
+        </a>
+      </td>
       <td>{props.camper.alltime}</td>
       <td>{props.camper.recent}</td>
     </tr>

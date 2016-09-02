@@ -7,4 +7,5 @@ Hosted at [jw120.github.io](https://jw120.github.io)
 ## TODO
 
 * Tidy fetch (DRY, handle errors)
-* Add pictures and links to camper name
+* Check Safari
+* Check iPhone

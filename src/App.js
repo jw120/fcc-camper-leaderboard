@@ -11,7 +11,7 @@ import CamperTable from './CamperTable';
 import type { Camper, Direction } from './CamperTable';
 
 const title = "Camper Leaderboard";
-const columnHeaders = [ "#", "Camper name", "All-time", "Recent" ];
+const columnHeaders = [ "#", "Camper", "All-time", "Recent" ];
 const initialColumnDirections = [ "NonControl", "NonControl", "Down", "Unselected" ];
 const recentURL = "https://fcctop100.herokuapp.com/api/fccusers/top/recent";
 const allTimeURL = "https://fcctop100.herokuapp.com/api/fccusers/top/alltime";
